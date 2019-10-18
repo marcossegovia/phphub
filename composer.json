@@ -1,0 +1,39 @@
+{
+  "name": "marcossegovia/phphub",
+  "type": "project",
+  "description": "Phphub is a console application to make your life easier as a php developer.",
+  "homepage": "https://www.marcossegovia.com",
+  "keywords": [
+    "githut",
+    "php"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marcos Segovia",
+      "email": "velozmarkdrea@gmail.com",
+      "homepage": "https://www.marcossegovia.com",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "symfony/console": "^4.3",
+    "knplabs/github-api": "^2.11",
+    "php-http/guzzle6-adapter": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phphub\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Phphub\\Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "stable"
+}
