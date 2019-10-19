@@ -21,7 +21,7 @@ final class CreateComposerFileCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('phphub:create-composer')
+        $this
             ->setDescription('Creates a default composer.json')
             ->setHelp('Creates a standard awesome composer.json');
     }

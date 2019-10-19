@@ -11,13 +11,14 @@ use Symfony\Component\DomCrawler\Crawler;
 
 final class CheckCurrentStableVersionCommand extends Command
 {
+    protected static $defaultName = 'check-current-stable-version';
+
     private const DOWNLOADS_PAGE = 'https://www.php.net/downloads.php';
     private const MESSAGE = 'Current stable PHP version is %s';
 
     protected function configure(): void
     {
-        $this->setName('phphub:check-current-stable-version')
-            ->setDescription('Displays the current stable version of PHP');
+        $this->setDescription('Displays the current stable version of PHP');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
