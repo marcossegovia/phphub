@@ -11,5 +11,6 @@ $application = new Application('Phphub');
 $client = new \Github\Client();
 
 $application->add(new \Phphub\CreateComposerFileCommand($client));
+$application->add(new \Phphub\CheckCurrentStableVersionCommand());
 
 $application->run();
