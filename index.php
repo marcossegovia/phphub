@@ -6,7 +6,7 @@ require __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
 
-$application = new Application('Phphub');
+$application = new Application("Welcome to Phphub \u{1F418}", 0.1);
 
 $client = new \Github\Client();
 
