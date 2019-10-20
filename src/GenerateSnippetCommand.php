@@ -29,7 +29,7 @@ final class GenerateSnippetCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('file-path', InputArgument::REQUIRED, 'path of the file you want to create the gist from')
+            ->addArgument('path', InputArgument::REQUIRED, 'file path or directory you want to create the gist/s from')
             ->addArgument('description', InputArgument::OPTIONAL, 'description of the gist', '')
             ->setDescription('Creates a gist from an existing file')
             ->setHelp('Creates a gist in your Github account given an existing file in your local');
@@ -45,14 +45,53 @@ final class GenerateSnippetCommand extends Command
             $this->fileSystem->set('token', $token);
         }
         $this->githubClient->authenticate($token, Client::AUTH_URL_TOKEN);
-        $content = \file_get_contents($input->getArgument('file-path'));
-        $file = new \stdClass();
-        $file->content = $content;
+
+        $path = $this->calculatePath($input->getArgument('path'));
+
+        if (\is_dir($path)) {
+            $files = $this->getDirectoryFiles($path);
+        } else {
+            $content = \file_get_contents($path);
+            $file = new \stdClass();
+            $file->content = $content;
+            $files = [\basename($path) => $file];
+        }
+
         $params = [
-            'files' => [\basename($input->getArgument('file-path')) => $file],
+            'files' => $files,
             'description' => $input->getArgument('description'),
             'public' => false
-            ];
+        ];
         $this->githubClient->api('gists')->create($params);
+    }
+
+    private function getDirectoryFiles(string $dirPath): array
+    {
+        $files = [];
+        $children = \scandir($dirPath, SCANDIR_SORT_NONE);
+        foreach ($children as $currentChild) {
+            if ('.' === $currentChild || '..' === $currentChild) {
+                continue;
+            }
+            $currentChildPath = $dirPath . '/' .$currentChild;
+            if (\is_dir($currentChildPath)) {
+                $files = \array_merge($files, $this->getDirectoryFiles($currentChildPath));
+                continue;
+            }
+            $content = \file_get_contents($currentChildPath);
+            $file = new \stdClass();
+            $file->content = $content;
+            $files[\basename($currentChildPath)] = $file;
+        }
+
+        return $files;
+    }
+
+    private function calculatePath(string $inputPath): string
+    {
+        if (\preg_match('/^\//m', $inputPath)) {
+            return $inputPath;
+        }
+        return ROOT_DIR . '/' . $inputPath;
     }
 }
