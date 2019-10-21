@@ -15,7 +15,7 @@ $fileSystem = new \Phphub\Persistence\FileSystem();
 $application->add(new \Phphub\CreateComposerFileCommand($client));
 $application->add(new \Phphub\CheckCurrentStableVersionCommand());
 $application->add(new \Phphub\GenerateSnippetCommand($client, $fileSystem));
-$application->add(new \Phphub\DisplayContributorListCommand($client));
+$application->add(new \Phphub\DisplayContributorListCommand());
 
 
 $application->run();

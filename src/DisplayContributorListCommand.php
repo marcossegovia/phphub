@@ -12,18 +12,11 @@ final class DisplayContributorListCommand extends Command
 {
     protected static $defaultName = 'display-contributors-list';
 
-    private $githubClient;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     protected function configure(): void
     {
         $this
-            ->setDescription('Display All Contributors')
-            ->setHelp('Display Contributors List');
+            ->setDescription('Display all contributors')
+            ->setHelp('Display contributors list');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -31,7 +24,7 @@ final class DisplayContributorListCommand extends Command
         $content = file_get_contents('CONTRIBUTING.md');
 
         if (!$content) {
-            $output->writeln('Unable to get the current Contributors List...');
+            $output->writeln('Unable to get the current contributors list...');
         }
 
         $output->writeln($content);
