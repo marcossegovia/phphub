@@ -16,10 +16,10 @@ final class DisplayIssuesListCommand extends Command
     
     protected static $defaultName = 'display-issues-list';
     
-    public function __construct(Issue $issues)
+    public function __construct(Issue $issue)
     {
         parent::__construct();
-        $this->issues = $issues;
+        $this->issue = $issue;
     }
 
     protected function configure(): void
@@ -36,7 +36,7 @@ final class DisplayIssuesListCommand extends Command
         if(! in_array($state, self::POSSIBLE_STATES )) {
             $output->writeln("Invalid issue state");
         }
-        $allIssues = $this->issues->all('marcossegovia', 'phphub', array("state" => $state));
+        $allIssues = $this->issue->all('marcossegovia', 'phphub', array("state" => $state));
         foreach($allIssues as $issue) {
             $issueDescripiton = "Number: " . $issue["number"] . " Title: " . $issue["title"] . " State: " . $issue["state"];
             $output->writeln($issueDescripiton);
